@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Consume</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1 class="title">Consume-Chase Atlantic</h1>
+
+            <div id="lyrics" class="lyrics"></div>
+
+            <audio id="audio" src="{{ url_for('static', filename='consume.mp3') }}"></audio>
+
+            <div class="play-button" id="playBtn">
+                <div class="icon" id="playIcon">▶️</div>
+            </div>
+
+            <div class="progress-container">
+                <span id="current-time">0:00</span>
+                <div class="progress-bar-wrapper">
+                    <div id="progress-bar"></div>
+                </div>
+                <span id="duration">0:00</span>
+            </div>
+
+            <p class="credit">//Code By : Arutia</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
