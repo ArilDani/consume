@@ -9,20 +9,22 @@ const progressWrapper = document.querySelector(".progress-bar-wrapper");
 
 let lyricsData = [];
 let activeLineIndex = -1;
-let typingInterval;
 let isTyping = false;
 
+// Format waktu (contoh: 1:05)
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
     return `${mins}:${secs}`;
 }
 
+// Ambil lirik dari backend
 async function loadLyrics() {
     const response = await fetch("/get_lyrics");
     lyricsData = await response.json();
 }
 
+// Tampilkan lirik statik
 function renderLyricsStatic() {
     lyricsContainer.innerHTML = "";
     lyricsData.forEach((line) => {
@@ -36,7 +38,7 @@ function renderLyricsStatic() {
     });
 }
 
-
+// Update lirik sesuai waktu
 function updateLyrics(currentTime) {
     for (let i = 0; i < lyricsData.length; i++) {
         if (
@@ -45,11 +47,9 @@ function updateLyrics(currentTime) {
         ) {
             if (activeLineIndex !== i && !isTyping) {
                 const lines = lyricsContainer.querySelectorAll("p");
+                lines.forEach(line => line.classList.remove("active"));
                 lines[i].classList.remove("inactive");
                 lines[i].classList.add("active");
-
-                highlightWords(lines[i], lyricsData[i].text);
-
                 activeLineIndex = i;
                 lines[i].scrollIntoView({ behavior: "smooth", block: "center" });
             }
@@ -58,15 +58,18 @@ function updateLyrics(currentTime) {
     }
 }
 
+// Seek audio saat user klik progress bar
 function seekTo(percentage) {
     const newTime = (percentage / 100) * audio.duration;
     audio.currentTime = newTime;
 }
 
+// Saat metadata audio dimuat
 audio.addEventListener("loadedmetadata", () => {
     durationText.textContent = formatTime(audio.duration);
 });
 
+// Saat audio diputar
 audio.addEventListener("timeupdate", () => {
     const current = audio.currentTime;
     const duration = audio.duration;
@@ -76,16 +79,27 @@ audio.addEventListener("timeupdate", () => {
     updateLyrics(current);
 });
 
+// Event Play/Pause
 playBtn.addEventListener("click", () => {
     if (audio.paused) {
         audio.play();
-        playIcon.textContent = "⏸️";
+        playIcon.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="10" y="8" width="4" height="20" rx="1" />
+                <rect x="22" y="8" width="4" height="20" rx="1" />
+            </svg>
+        `;
     } else {
         audio.pause();
-        playIcon.textContent = "▶️";
+        playIcon.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="10,6 28,18 10,30" />
+            </svg>
+        `;
     }
 });
 
+// Klik progress bar untuk seek
 progressWrapper.addEventListener("click", (e) => {
     const rect = progressWrapper.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -93,7 +107,15 @@ progressWrapper.addEventListener("click", (e) => {
     seekTo(percentage);
 });
 
+// Saat halaman selesai dimuat
 window.addEventListener("DOMContentLoaded", async () => {
     await loadLyrics();
     renderLyricsStatic();
+
+    // Set ikon play saat awal
+    playIcon.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="10,6 28,18 10,30" />
+        </svg>
+    `;
 });

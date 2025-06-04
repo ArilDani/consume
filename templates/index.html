@@ -7,8 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
+    <video autoplay muted loop id="bgVideo">
+        <source src="{{ url_for('static', filename='consume.mp4') }}" type="video/mp4">
+        background.
+    </video>
+
     <div class="container">
         <div class="card">
             <h1 class="title">Consume-Chase Atlantic</h1>
@@ -17,9 +24,13 @@
 
             <audio id="audio" src="{{ url_for('static', filename='consume.mp3') }}"></audio>
 
-            <div class="play-button" id="playBtn">
-                <div class="icon" id="playIcon">▶️</div>
+            <div id="playBtn">
+                <div id="playIcon" class="icon">
+                    <!-- SVG akan disisipkan lewat JS -->
+                </div>
             </div>
+
+
 
             <div class="progress-container">
                 <span id="current-time">0:00</span>

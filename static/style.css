@@ -9,6 +9,21 @@ body {
     align-items: center;
     min-height: 100vh; 
 }
+#bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.8; /* Sesuaikan jika ingin lebih gelap/terang */
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+}
 
 .container {
     display: flex;
@@ -19,7 +34,7 @@ body {
 }
 
 .card {
-    background: radial-gradient(circle at top left, #2e004d, #1a002c);
+    background: radial-gradient(circle at top left, #2e004d00, #1a002c07);
     padding: 30px 25px;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
@@ -61,28 +76,23 @@ body {
     opacity: 0.4; /* Opasitas lebih rendah untuk lirik tidak aktif */
 }
 
-.play-button {
-    width: 45px;
-    height: 45px;
-    background-color: #00d0ff;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto 10px;
+#playBtn {
     cursor: pointer;
-    transition: transform 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.play-button:hover {
-    transform: scale(1.05);
+#playIcon {
+    transition: transform 0.2s ease;
 }
 
-.play-button .icon {
-    color: #1a002c;
-    font-size: 20px;
-    margin-left: 2px;
+#playBtn:active #playIcon {
+    transform: scale(0.9);
 }
+
+
+
 
 .progress-container {
     display: flex;
@@ -104,7 +114,7 @@ body {
 }
 
 #progress-bar {
-    background: #00d0ff;
+    background: #210033;
     width: 0%;
     height: 100%;
     transition: width 0.2s linear;
